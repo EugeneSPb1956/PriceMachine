@@ -4,6 +4,7 @@ import os
 import csv
 import json
 from operator import itemgetter  # для json сортировки
+from datetime import datetime  # для создания имени файла
 
 directory = os.getcwd()
 
@@ -125,16 +126,26 @@ class PriceMachine:
         # Список выводится в виде таблицы отсортированной по возрастанию стоимости за килограмм.
         # Цикл обмена с пользователем завершается при вводе "exit".
         while True:
-            count = 0
             keep_text = input('Введите строку для поиска:')
             in_text = keep_text.lower()
             if in_text == 'exit':
+                if count:
+                    if input('Сохранить полученный список? (y/n)') == 'y':
+                        f_name = 'products_' + datetime.now().strftime('%Y%m%d_%H%M') + '.html'
+                        # out_search = open(f_name, 'w')
+                        # out_search.write('Результат поиска сохранен')
+                        # out_search.close()
+                        analizer.export_to_html(search_result, f_name)
+                        print(f'Результат поиска сохранен в {f_name}')
                 break
+            count = 0
+            search_result = []
             print()
             print('№   Наименование             цена   вес   файл          цена за кг.')
             for row in data:
                 if in_text in row['Наименование'].lower():
                     count += 1
+                    search_result.append(row)
                     print(count, '\t', row['Наименование'], '\t\t\t', row['цена'], '\t', row['вес'], '\t',
                           row['файл'], '\t', row['цена за кг.'])
             if not count:
