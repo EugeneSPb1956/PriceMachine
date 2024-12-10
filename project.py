@@ -132,9 +132,6 @@ class PriceMachine:
                 if count:
                     if input('Сохранить полученный список? (y/n)') == 'y':
                         f_name = 'products_' + datetime.now().strftime('%Y%m%d_%H%M') + '.html'
-                        # out_search = open(f_name, 'w')
-                        # out_search.write('Результат поиска сохранен')
-                        # out_search.close()
                         analizer.export_to_html(search_result, f_name)
                         print(f'Результат поиска сохранен в {f_name}')
                 break
